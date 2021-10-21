@@ -19,7 +19,7 @@ inputs.forEach((input) =>
   input.addEventListener('focus', () => removeInputError(input))
 );
 
-// handlers
+// Handlers
 function onSubmit() {
   const isFormValid = inputs.every((input) => {
     const isInputValid = validate(input);
