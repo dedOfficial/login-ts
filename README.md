@@ -6,6 +6,6 @@ The functional login form. Practice work with the autentification
 
 for start webpack development server
 
-## `npm build`
+## `npm run build`
 
 for build application to production version
