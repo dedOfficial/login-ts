@@ -4,6 +4,8 @@ import '../css/style.css';
 import UI from './config/ui.config';
 import { validate } from './helpers/validate';
 import { removeInputError, showInputError } from './views/form';
+import { login } from './services/auth.service';
+import { notify } from './views/notifications';
 
 const { form, inputEmail, inputPassword } = UI;
 const inputs = [inputEmail, inputPassword];
@@ -20,14 +22,23 @@ inputs.forEach((input) =>
 );
 
 // Handlers
-function onSubmit() {
+async function onSubmit() {
   const isFormValid = inputs.every((input) => {
     const isInputValid = validate(input);
     if (!isInputValid) {
       removeInputError(input);
       showInputError(input);
     }
+    return isInputValid;
   });
 
-  return isFormValid;
+  if (!isFormValid) return;
+
+  try {
+    await login(inputEmail.value, inputPassword.value);
+    form.reset();
+    notify({ msg: 'Login success', className: 'alert-success' });
+  } catch (err) {
+    notify({ msg: 'Login failed', className: 'alert-danger' });
+  }
 }
